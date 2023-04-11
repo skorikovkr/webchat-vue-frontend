@@ -1,12 +1,34 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="container">
+    <header class="header">
+      <div class="hosting">Hosted by <a href="https://somee.com/default.aspx">somee.com</a>!</div>
+      <ul class="header-links">
+        <li><router-link to="/" class="header-link">WebChat</router-link></li>
+        <li><router-link to="/chats" class="header-link">Chats</router-link></li>
+        <li><router-link to="/friends" class="header-link">Friends</router-link></li>
+        <li><router-link to="/signin" class="header-link">Sign In</router-link></li>
+        <li><router-link to="/signout" class="header-link">Sign out</router-link></li>
+        <li><router-link to="/registration" class="header-link">Registration</router-link></li>
+      </ul>
+    </header>
+    <main class="main">
+      <router-view/>
+    </main>
+    <footer>
+      <p>Created by <a href="https://github.com/skorikovkr">skorikovkr</a>.</p>
+      <p>Backend and database hosted by <a href="https://somee.com/default.aspx">somee.com</a>.</p>
+      <p>Frontend hosted by GitHub Pages.</p>
+    </footer>
+  </div>
 </template>
 
+
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,16 +37,65 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
-nav a {
+.hosting {
+  background-color: #e8e8e8;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.main {
+  max-width: 1000px;
+  width: 100%;
+  margin: 30px auto auto;
+}
+
+.header {
+  background: #f9fbff;
+}
+
+.header-links {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  padding: 0.6rem;
+}
+
+.header-links li:first-child {
   font-weight: bold;
-  color: #2c3e50;
+  margin-right: 1.5rem;
+  font-size: 1.2rem;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.header-links li:nth-child(4) {
+  margin-left: auto;
+}
+
+.header-link {
+  text-decoration: none;
+  color: #7026b4;
+}
+
+.header-link:visited {
+  color: #7026b4;
+}
+
+footer {
+  text-align: left;
+  margin-top: 50px;
+  background-color: #a2a1a1;
+  color: #e8e8e8;
+  font-size: 0.9rem;
+  padding: 1rem;
 }
 </style>
