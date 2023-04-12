@@ -6,13 +6,20 @@
         <li><router-link to="/" class="header-link">WebChat</router-link></li>
         <li><router-link to="/chats" class="header-link">Chats</router-link></li>
         <li><router-link to="/friends" class="header-link">Friends</router-link></li>
-        <li><router-link to="/signin" class="header-link">Sign In</router-link></li>
-        <li><router-link to="/signout" class="header-link">Sign out</router-link></li>
-        <li><router-link to="/registration" class="header-link">Registration</router-link></li>
+        <li><router-link to="/signin" class="header-link" v-bind:class="{invisible: !authorized}">Sign In</router-link></li>
+        <li><a href="#" v-on:click="onSignOut" class="header-link" v-bind:class="{invisible: authorized}">Sign out</a></li>
+        <li>
+          <router-link
+              to="/registration"
+              class="header-link"
+              v-bind:class="{invisible: !authorized}">
+            Registration
+          </router-link>
+        </li>
       </ul>
     </header>
     <main class="main">
-      <router-view/>
+      <router-view @updated-localstorage="onLocalStorageChange"/>
     </main>
     <footer>
       <p>Created by <a href="https://github.com/skorikovkr">skorikovkr</a>.</p>
@@ -22,6 +29,26 @@
   </div>
 </template>
 
+<script>
+import config from "../config";
+
+export default {
+  data() {
+    return {
+      authorized: !localStorage.getItem(config.ACCESS_TOKEN_KEY)
+    }
+  },
+  methods: {
+    onLocalStorageChange() {
+      this.authorized = !localStorage.getItem(config.ACCESS_TOKEN_KEY);
+    },
+    onSignOut() {
+      localStorage.removeItem(config.ACCESS_TOKEN_KEY);
+      this.onLocalStorageChange();
+    }
+  }
+}
+</script>
 
 <style>
 * {
@@ -97,5 +124,9 @@ footer {
   color: #e8e8e8;
   font-size: 0.9rem;
   padding: 1rem;
+}
+
+.invisible {
+  display: none;
 }
 </style>

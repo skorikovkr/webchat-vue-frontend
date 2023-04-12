@@ -1,13 +1,10 @@
 <template>
-About
+
 </template>
 
 <script>
 export default {
-  name: "About",
-  mounted() {
-
-  }
+  name: "Chats"
 }
 </script>
 
