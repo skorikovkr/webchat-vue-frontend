@@ -1,0 +1,56 @@
+<template>
+  <ul class="rooms">
+    <chat-room-list-item
+        v-for="room in rooms"
+        v-bind:chat="room"
+        @room-clicked="onRoomClick"
+    />
+  </ul>
+</template>
+
+<script>
+import ChatRoomListItem from "@/components/ChatRoomList/ChatRoomListItem.vue";
+import ChatService from "@/services/ChatService";
+export default {
+  name: "ChatRoomsList",
+  components: {ChatRoomListItem},
+  data() {
+    return {
+      rooms: [],
+      selectedRoom: null
+    }
+  },
+
+  methods: {
+    onRoomClick(roomName) {
+      const service = new ChatService();
+      service.getChatHistory(roomName).then(res => {
+        if (res.success) {
+          this.selectedRoom = res.data;
+        } else {
+          this.error = res.data;
+        }
+      });
+    }
+  },
+
+  mounted() {
+    const service = new ChatService();
+    service.getChatRooms().then(res => {
+      if (res.success) {
+        this.rooms = res.data;
+      } else {
+        this.error = res.data;
+      }
+    });
+  }
+}
+</script>
+
+<style scoped>
+  .rooms {
+    margin-left: 20px;
+    list-style: none;
+    width: 33%;
+  }
+</style>

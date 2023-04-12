@@ -38,6 +38,7 @@ export default {
     flex-direction: column;
     align-items: start;
     max-width: 70%;
+    margin-left: 20px;
   }
 
   h1 {
@@ -52,9 +53,11 @@ export default {
   }
 
   .description {
-    margin-left: 20px;
+    margin-left: 10px;
     margin-bottom: 10px;
     margin-top: 5px;
     font-style: italic;
+    border-left: #e8e8e8 3px solid;
+    padding-left: 10px;
   }
 </style>
