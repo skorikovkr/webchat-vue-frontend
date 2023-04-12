@@ -1,18 +1,28 @@
 <template>
-<ul>
-  <li>Message Area</li>
-</ul>
+  <div class="message-area">
+    <message v-for="message in messageHistory"
+             v-bind:text="message.text"
+             v-bind:username="message.userName"
+    />
+  </div>
 </template>
 
 <script>
+import Message from "@/components/ChatRoomList/Message.vue";
+
 export default {
-  name: "MessageArea"
+  name: "MessageArea",
+  components: {Message},
+  props: ['messageHistory']
 }
 </script>
 
 <style scoped>
-  ul {
+  .message-area {
     width: 100%;
-    padding: 20px;
+    background-color: #f8f8f8;
+    margin: 20px;
+    border-radius: 10px;
+    justify-content: left;
   }
 </style>

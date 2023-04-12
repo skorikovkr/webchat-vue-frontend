@@ -1,11 +1,14 @@
 <template>
-  <ul class="rooms">
-    <chat-room-list-item
-        v-for="room in rooms"
-        v-bind:chat="room"
-        @room-clicked="onRoomClick"
-    />
-  </ul>
+  <div class="rooms-list">
+    <span>Your chats:</span>
+    <ul>
+      <chat-room-list-item
+          v-for="room in rooms"
+          v-bind:chat="room"
+          @room-clicked="onRoomClick"
+      />
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -26,7 +29,8 @@ export default {
       const service = new ChatService();
       service.getChatHistory(roomName).then(res => {
         if (res.success) {
-          this.selectedRoom = res.data;
+          this.selectedRoom = roomName;
+          this.$emit('room-selected', res.data);
         } else {
           this.error = res.data;
         }
@@ -48,9 +52,12 @@ export default {
 </script>
 
 <style scoped>
-  .rooms {
+  .rooms-list {
+    width: 33%;
+  }
+
+  ul {
     margin-left: 20px;
     list-style: none;
-    width: 33%;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="chat-container">
-    <chat-rooms-list />
-    <message-area />
+    <chat-rooms-list @room-selected="onRoomSelected"/>
+    <message-area v-bind:message-history="messageHistory"/>
   </div>
 </template>
 
@@ -13,6 +13,16 @@ export default {
   components: {
     MessageArea,
     ChatRoomsList
+  },
+  data() {
+    return {
+      messageHistory: []
+    }
+  },
+  methods: {
+    onRoomSelected(messageHistory) {
+      this.messageHistory = messageHistory;
+    }
   }
 }
 </script>
