@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <header class="header">
-      <div class="hosting">Hosted by <a href="https://somee.com/default.aspx">somee.com</a>!</div>
+      <div class="hosting">Backend hosted by <a href="https://somee.com/default.aspx">somee.com</a>!</div>
       <ul class="header-links">
         <li><router-link to="/" class="header-link">WebChat</router-link></li>
-        <li><router-link to="/chats" class="header-link">Chats</router-link></li>
-        <li><router-link to="/friends" class="header-link">Friends</router-link></li>
-        <li><router-link to="/signin" class="header-link" v-bind:class="{invisible: !authorized}">Sign In</router-link></li>
+        <li><router-link to="/chats" class="header-link" v-bind:class="{invisible: authorized}">Chats</router-link></li>
+        <li><router-link to="/friends" class="header-link" v-bind:class="{invisible: authorized}">Friends</router-link></li>
         <li><a href="#" v-on:click="onSignOut" class="header-link" v-bind:class="{invisible: authorized}">Sign out</a></li>
+        <li><router-link to="/signin" class="header-link" v-bind:class="{invisible: !authorized}">Sign In</router-link></li>
         <li>
           <router-link
               to="/registration"
@@ -31,6 +31,7 @@
 
 <script>
 import config from "../config";
+import AuthService from "@/services/AuthService";
 
 export default {
   data() {
@@ -43,8 +44,11 @@ export default {
       this.authorized = !localStorage.getItem(config.ACCESS_TOKEN_KEY);
     },
     onSignOut() {
-      localStorage.removeItem(config.ACCESS_TOKEN_KEY);
-      this.onLocalStorageChange();
+      const service = new AuthService();
+      service.signOut().then(res => {
+        window.location.href = "/";
+        this.onLocalStorageChange();
+      });
     }
   }
 }

@@ -15,4 +15,18 @@ export default class AuthService {
                 return { data: data, success: res.status === 200 };
             });
     }
+
+    signOut() {
+        const token = localStorage.getItem(config.ACCESS_TOKEN_KEY);
+        return fetch(config.API_URL + "/Identity/Logout", {
+        method: "POST",
+        credentials: 'include',
+        headers: { "Accept": "application/json, text/plain, */*", "Content-Type": "application/json", "Authorization": "Bearer " + token }
+        })
+        .then(async res => {
+            const data = await res.text();
+            localStorage.removeItem(config.ACCESS_TOKEN_KEY);
+            return { data: data, success: res.status === 200 };
+        });
+    }
 }
