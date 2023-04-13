@@ -29,6 +29,7 @@ export default {
     -webkit-box-shadow: -12px -6px 22px -7px rgba(34, 60, 80, 0.2);
     -moz-box-shadow: -12px -6px 22px -7px rgba(34, 60, 80, 0.2);
     box-shadow: -12px -6px 22px -7px rgba(34, 60, 80, 0.2);
+    margin-top: 1rem;
   }
 
   .to-right {

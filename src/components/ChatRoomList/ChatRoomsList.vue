@@ -57,7 +57,6 @@ export default {
 
 <style scoped>
   .rooms-list {
-    width: 33%;
   }
 
   ul {

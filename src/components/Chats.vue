@@ -30,9 +30,10 @@ export default {
     }
   },
   methods: {
-    onRoomSelected(messageHistory, roomName) {
+    async onRoomSelected(messageHistory, roomName) {
       this.messageHistory = messageHistory;
       this.selectedRoom = roomName;
+      await connection.invoke("ConnectToRoom", roomName);
     },
     async onMessageSent(message) {
       await connection.invoke("SendMessageToRoom", this.selectedRoom, message);
@@ -55,5 +56,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: start;
+    width: 100%;
   }
 </style>

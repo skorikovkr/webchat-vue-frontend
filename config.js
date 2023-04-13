@@ -5,7 +5,6 @@ if (process.env.NODE_ENV === "production") {
 } else {
     api_url = "https://localhost:7007";
 }
-
 const config = {
     API_URL: api_url,
     ACCESS_TOKEN_KEY: "access-token-key"
