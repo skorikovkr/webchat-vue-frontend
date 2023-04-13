@@ -23,14 +23,18 @@ export default {
       selectedRoom: null
     }
   },
-
+  provide() {
+    return {
+      'selectedRoom': this.selectedRoom
+    }
+  },
   methods: {
     onRoomClick(roomName) {
       const service = new ChatService();
       service.getChatHistory(roomName).then(res => {
         if (res.success) {
           this.selectedRoom = roomName;
-          this.$emit('room-selected', res.data);
+          this.$emit('room-selected', res.data, this.selectedRoom);
         } else {
           this.error = res.data;
         }

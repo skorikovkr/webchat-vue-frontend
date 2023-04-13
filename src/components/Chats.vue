@@ -1,28 +1,51 @@
 <template>
   <div class="chat-container">
     <chat-rooms-list @room-selected="onRoomSelected"/>
-    <message-area v-bind:message-history="messageHistory"/>
+    <message-area v-bind:message-history="messageHistory"
+      @sending-message="onMessageSent"
+    />
   </div>
 </template>
 
 <script>
 import ChatRoomsList from "@/components/ChatRoomList/ChatRoomsList.vue";
 import MessageArea from "@/components/ChatRoomList/MessageArea.vue";
+import {connection} from "@/App.vue";
+
 export default {
   name: "Chats",
   components: {
     MessageArea,
     ChatRoomsList
   },
+  provide() {
+    return {
+      room: this.selectedRoom
+    }
+  },
   data() {
     return {
-      messageHistory: []
+      messageHistory: [],
+      selectedRoom: null
     }
   },
   methods: {
-    onRoomSelected(messageHistory) {
+    onRoomSelected(messageHistory, roomName) {
       this.messageHistory = messageHistory;
+      this.selectedRoom = roomName;
+    },
+    async onMessageSent(message) {
+      await connection.invoke("SendMessageToRoom", this.selectedRoom, message);
     }
+  },
+  async mounted() {
+    connection.on("RecieveMessage", function (user, message) {
+      let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt").replace(/>/g, "&gt");
+      this.messageHistory.push({
+        userName: user,
+        text: msg
+      });
+    });
   }
 }
 </script>

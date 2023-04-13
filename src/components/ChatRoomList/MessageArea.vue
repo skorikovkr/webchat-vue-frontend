@@ -5,15 +5,29 @@
              v-bind:username="message.userName"
     />
   </div>
+  <input id="messageInput" v-model="messageToSend"/>
+  <button v-on:click="sendMessage">Send</button>
 </template>
 
 <script>
 import Message from "@/components/ChatRoomList/Message.vue";
+import { connection } from "@/App.vue";
 
 export default {
   name: "MessageArea",
   components: {Message},
-  props: ['messageHistory']
+  emits: ["sending-message"],
+  props: ['messageHistory'],
+  data() {
+    return {
+      messageToSend: ''
+    }
+  },
+  methods: {
+    async sendMessage() {
+      this.$emit("sending-message", this.messageToSend);
+    }
+  }
 }
 </script>
 
@@ -24,5 +38,6 @@ export default {
     margin: 20px;
     border-radius: 10px;
     justify-content: left;
+    padding: 20px;
   }
 </style>

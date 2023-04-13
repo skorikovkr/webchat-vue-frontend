@@ -32,6 +32,25 @@
 <script>
 import config from "../config";
 import AuthService from "@/services/AuthService";
+const signalR = require("@microsoft/signalr");
+
+export const connection = new signalR.HubConnectionBuilder()
+    .withUrl(config.API_URL +"/chat", { accessTokenFactory: () => localStorage.getItem(config.ACCESS_TOKEN_KEY)})
+    .withAutomaticReconnect({nextRetryDelayInMilliseconds: retryContext => {
+      if (retryContext.elapsedMilliseconds < 60000) {
+        return Math.random() * 10000;
+      } else {
+        return null;
+      }
+  }})
+    .build();
+if (localStorage.getItem(config.ACCESS_TOKEN_KEY)) {
+  connection.start().then(() => {
+    console.log(connection.connectionId);
+  }).catch(err =>{
+    console.log("");
+  });
+}
 
 export default {
   data() {
@@ -91,6 +110,9 @@ export default {
 
 .header {
   background: #f9fbff;
+  -webkit-box-shadow: 0px 17px 22px -20px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 17px 22px -20px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 17px 22px -20px rgba(34, 60, 80, 0.2);
 }
 
 .header-links {
@@ -108,6 +130,10 @@ export default {
   font-weight: bold;
   margin-right: 1.5rem;
   font-size: 1.2rem;
+}
+
+.header-links li:hover {
+  background-color: #d7dade;
 }
 
 .header-links li:nth-child(4) {
