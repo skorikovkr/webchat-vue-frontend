@@ -6,9 +6,9 @@
                v-bind:username="message.userName"
       />
     </div>
-    <form id="messageSendingForm">
-      <input id="messageInput" v-model="messageToSend" autocomplete="off"/>
-      <button v-on:click.prevent="sendMessage" id="sendMessageButton">Send</button>
+    <form id="messageSendingForm" >
+      <input id="messageInput" v-model="messageToSend" autocomplete="off" v-bind:class="{ invisible : !selectedRoom }"/>
+      <button v-on:click.prevent="sendMessage" id="sendMessageButton" v-bind:class="{ invisible : !selectedRoom }">Send</button>
     </form>
   </div>
 </template>
@@ -54,6 +54,10 @@ export default {
 </script>
 
 <style scoped>
+  .invisible {
+    display: none;
+  }
+
   .message-container {
     width: 60%;
     min-width: 60%;

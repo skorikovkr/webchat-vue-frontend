@@ -23,6 +23,19 @@ export default class AuthService {
             });
     }
 
+    register(username, password) {
+        return fetch(config.API_URL + "/Identity/Register", {
+            method: "POST",
+            headers: { "Accept": "application/json, text/plain, */*", "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })})
+            .then(async res => {
+                return { success: res.status === 200 };
+            });
+    }
+
     signOut() {
         const token = localStorage.getItem(config.ACCESS_TOKEN_KEY);
         return fetch(config.API_URL + "/Identity/Logout", {
