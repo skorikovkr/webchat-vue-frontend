@@ -14,6 +14,8 @@
 <script>
 import ChatRoomListItem from "@/components/ChatRoomList/ChatRoomListItem.vue";
 import ChatService from "@/services/ChatService";
+import {connection} from "@/App.vue";
+
 export default {
   name: "ChatRoomsList",
   components: {ChatRoomListItem},
@@ -23,14 +25,10 @@ export default {
       selectedRoom: null
     }
   },
-  provide() {
-    return {
-      'selectedRoom': this.selectedRoom
-    }
-  },
   methods: {
-    onRoomClick(roomName) {
+    async onRoomClick(roomName) {
       const service = new ChatService();
+      await connection.invoke("ConnectToRoom", roomName);
       service.getChatHistory(roomName).then(res => {
         if (res.success) {
           this.selectedRoom = roomName;

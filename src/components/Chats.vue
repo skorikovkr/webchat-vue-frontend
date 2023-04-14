@@ -1,9 +1,7 @@
 <template>
   <div class="chat-container">
     <chat-rooms-list @room-selected="onRoomSelected"/>
-    <message-area v-bind:message-history="messageHistory"
-      @sending-message="onMessageSent"
-    />
+    <message-area v-bind:messageHistory="messageHistory" v-bind:selectedRoom="selectedRoom"/>
   </div>
 </template>
 
@@ -18,11 +16,6 @@ export default {
     MessageArea,
     ChatRoomsList
   },
-  provide() {
-    return {
-      room: this.selectedRoom
-    }
-  },
   data() {
     return {
       messageHistory: [],
@@ -33,20 +26,7 @@ export default {
     async onRoomSelected(messageHistory, roomName) {
       this.messageHistory = messageHistory;
       this.selectedRoom = roomName;
-      await connection.invoke("ConnectToRoom", roomName);
-    },
-    async onMessageSent(message) {
-      await connection.invoke("SendMessageToRoom", this.selectedRoom, message);
     }
-  },
-  async mounted() {
-    connection.on("RecieveMessage", function (user, message) {
-      let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt").replace(/>/g, "&gt");
-      this.messageHistory.push({
-        userName: user,
-        text: msg
-      });
-    });
   }
 }
 </script>

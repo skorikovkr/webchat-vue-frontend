@@ -1,6 +1,6 @@
 <template>
   <div class="message-container">
-    <div class="message-area">
+    <div class="message-area" id="messageArea">
       <message v-for="message in messageHistory"
                v-bind:text="message.text"
                v-bind:username="message.userName"
@@ -18,8 +18,7 @@ import { connection } from "@/App.vue";
 export default {
   name: "MessageArea",
   components: {Message},
-  emits: ["sending-message"],
-  props: ['messageHistory'],
+  props: { messageHistory : Array, selectedRoom: String },
   data() {
     return {
       messageToSend: ''
@@ -27,9 +26,27 @@ export default {
   },
   methods: {
     async sendMessage() {
-      this.$emit("sending-message", this.messageToSend);
+      await connection.invoke("SendMessageToRoom", this.selectedRoom, this.messageToSend);
       this.messageToSend = '';
+    },
+    addMessageToHistory(message) {
+      this.messageHistory.push(message);
     }
+  },
+  async mounted() {
+    messageArea.scrollTop = messageArea.scrollHeight;
+    const addMessage = this.addMessageToHistory;
+    connection.on("RecieveMessage", function (user, message) {
+      let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt").replace(/>/g, "&gt");
+      const newItem = {userName: user, text: msg};
+      addMessage(newItem);
+      setTimeout(() => {
+        messageArea.scrollTop = messageArea.scrollHeight;
+      }, 500);
+    });
+    connection.on("Notify", function (message) {
+      console.log(message);
+    });
   }
 }
 </script>
