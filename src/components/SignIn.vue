@@ -42,7 +42,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem(config.ACCESS_TOKEN_KEY)) {
-      window.location.href = "chats";
+      this.$router.push("chats");
     }
   }
 }

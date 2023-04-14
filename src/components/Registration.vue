@@ -44,7 +44,7 @@ export default {
                   .then(res => {
                     if (res.success) {
                       this.$emit('updated-localstorage');
-                      window.location.href = "/chats";
+                      this.$router.push("chats");
                     } else {
                       this.error = "Error with signing you in. Please try to Sign in again.";
                     }
@@ -57,7 +57,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem(config.ACCESS_TOKEN_KEY)) {
-      window.location.href = "chats";
+      this.$router.push("chats");
     }
   }
 }

@@ -70,7 +70,8 @@ export default {
       localStorage.removeItem(config.ACCESS_TOKEN_KEY);
       this.username = null;
       this.onLocalStorageChange();
-      window.location.href = "/";
+      this.$router.push('/');
+      //window.location.href = "/";
     }
   }
 }
