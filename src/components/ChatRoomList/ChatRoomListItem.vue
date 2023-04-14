@@ -22,5 +22,6 @@ export default {
     margin-top: 5px;
     cursor: pointer;
     border-color: #2c3e50;
+    width: 100%;
   }
 </style>

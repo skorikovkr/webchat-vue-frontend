@@ -55,10 +55,17 @@ export default {
 
 <style scoped>
   .rooms-list {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   ul {
-    margin-left: 20px;
+    margin-top: 10px;
     list-style: none;
+    width: 100%;
   }
 </style>

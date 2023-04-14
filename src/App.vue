@@ -6,7 +6,6 @@
         <li><router-link to="/" class="header-link">WebChat</router-link></li>
         <li><router-link to="/chats" class="header-link" v-bind:class="{invisible: authorized}">Chats</router-link></li>
         <li><router-link to="/friends" class="header-link" v-bind:class="{invisible: authorized}">Friends</router-link></li>
-        <li><a href="#" v-on:click="onSignOut" class="header-link" v-bind:class="{invisible: authorized}">Sign out <b>{{ username }}</b></a></li>
         <li><router-link to="/signin" class="header-link" v-bind:class="{invisible: !authorized}">Sign In</router-link></li>
         <li>
           <router-link
@@ -16,6 +15,8 @@
             Registration
           </router-link>
         </li>
+        <li><a href="#" v-on:click="onSignOut" class="header-link" v-bind:class="{invisible: authorized}">Sign out <b>{{ username }}</b></a></li>
+
       </ul>
     </header>
     <main class="main">
