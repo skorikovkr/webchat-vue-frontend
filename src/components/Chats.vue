@@ -9,6 +9,7 @@
 import ChatRoomsList from "@/components/ChatRoomList/ChatRoomsList.vue";
 import MessageArea from "@/components/ChatRoomList/MessageArea.vue";
 import {connection} from "@/App.vue";
+import AuthService from "@/services/AuthService";
 
 export default {
   name: "Chats",
@@ -26,6 +27,11 @@ export default {
     async onRoomSelected(messageHistory, roomName) {
       this.messageHistory = messageHistory;
       this.selectedRoom = roomName;
+    }
+  },
+  created() {
+    if (!AuthService.isTokenValid) {
+      this.$router.push("SignIn");
     }
   }
 }

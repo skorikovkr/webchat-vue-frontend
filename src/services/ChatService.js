@@ -1,9 +1,11 @@
 import config from "../../config";
+import AuthService from "@/services/AuthService";
 
 export default class ChatService {
     getChatRooms() {
+        if (!AuthService.isTokenValid) return { data: null, success: 401 };
         const token = localStorage.getItem(config.ACCESS_TOKEN_KEY);
-        return fetch(config.API_URL + '/Chat/GetAvailableRooms', {
+            return fetch(config.API_URL + '/Chat/GetAvailableRooms', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -18,6 +20,7 @@ export default class ChatService {
     }
 
     getChatHistory(roomName) {
+        if (!AuthService.isTokenValid) return { data: null, success: 401 };
         const token = localStorage.getItem(config.ACCESS_TOKEN_KEY);
         return fetch(config.API_URL +'/Chat/GetRoomMessageHistory?roomName=' + roomName,
             {

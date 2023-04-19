@@ -36,7 +36,10 @@ import AuthService from "@/services/AuthService";
 const signalR = require("@microsoft/signalr");
 
 export const connection = new signalR.HubConnectionBuilder()
-    .withUrl(config.API_URL +"/chat", { accessTokenFactory: () => localStorage.getItem(config.ACCESS_TOKEN_KEY)})
+    .withUrl(config.API_URL +"/chat", {
+      accessTokenFactory: () => localStorage.getItem(config.ACCESS_TOKEN_KEY),
+      transport: signalR.HttpTransportType.LongPolling  // т.к. мой текущий хостинг не поддерживает WebSocket протокол или Server Sent Events
+    })
     .withAutomaticReconnect({nextRetryDelayInMilliseconds: retryContext => {
       if (retryContext.elapsedMilliseconds < 60000) {
         return Math.random() * 10000;
@@ -45,12 +48,13 @@ export const connection = new signalR.HubConnectionBuilder()
       }
   }})
     .build();
-if (localStorage.getItem(config.ACCESS_TOKEN_KEY)) {
-  connection.start().then(() => {
-    console.log(connection.connectionId);
-  }).catch(err =>{
-    console.log("");
-  });
+
+if (!AuthService.isTokenValid) {
+  localStorage.removeItem("username");
+  localStorage.removeItem(config.ACCESS_TOKEN_KEY);
+  localStorage.removeItem("token-expires");
+} else {
+  connection.start();
 }
 
 export default {
@@ -71,7 +75,6 @@ export default {
       this.username = null;
       this.onLocalStorageChange();
       this.$router.push('/');
-      //window.location.href = "/";
     }
   }
 }
